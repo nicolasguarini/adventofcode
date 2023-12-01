@@ -18,6 +18,7 @@ def part_1():
 
 def part_2():
     spelled_digits = {
+        "zero": "0",
         "one": "1",
         "two": "2", 
         "three": "3", 
@@ -54,4 +55,3 @@ def part_2():
 if __name__ == "__main__": 
     part_1()
     part_2()
-    

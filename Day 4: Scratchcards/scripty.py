@@ -1,32 +1,39 @@
+def read_cards(filename="input.txt"):
+    with open(filename) as file:
+        return file.read().split('\n')
+
+def calculate_score(winning_numbers, my_numbers):
+    score = 0
+    for num in my_numbers:
+        if num in winning_numbers:
+            score = max(1, score * 2)
+    return score
+
 def part_1():
-    with open("input.txt") as my_file:
-        cards = my_file.read().split('\n')
+    cards = read_cards()
 
     total_points = 0
-
     for card in cards:
-        card_id, numbers = card.split(": ")
-        winning_numbers, my_numbers = numbers.split(" | ")
-
-        winning_numbers = [n for n in winning_numbers.split()]
-        my_numbers = [n for n in my_numbers.split()]
+        _, numbers = card.split(": ")
+        winning_numbers, my_numbers = map(str.split, numbers.split(" | "))
         
-        card_score = 0
-        for n in my_numbers:
-            if n in winning_numbers:
-                if card_score <= 0:
-                    card_score = 1
-                else:
-                    card_score *= 2
+        total_points += calculate_score(winning_numbers, my_numbers)
 
-        total_points += card_score
-
-        print(f"{card_id} score: {card_score}")
-    
     print(f"Day 4 (Part 1): {total_points}")
 
 def part_2():
-    pass
+    cards = read_cards()
+    scratchcards = {i + 1: 1 for i in range(len(cards))}
+
+    for id, card in enumerate(cards, start=1):
+        _, numbers = card.split(": ")
+        winning_numbers, my_numbers = map(str.split, numbers.split(" | "))
+
+        matches = sum(num in winning_numbers for num in my_numbers)
+        for i in range(id + 1, id + 1 + matches):
+            scratchcards[i] += scratchcards[id]
+
+    print(f"Day 4 (Part 2): {sum(scratchcards.values())}")
 
 if __name__ == "__main__":
     part_1()

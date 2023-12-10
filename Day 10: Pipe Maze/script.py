@@ -113,4 +113,6 @@ def part_1():
     
     print(f"Day 10 (Part 1): {steps}")
 
-part_1()
+if __name__ == "__main__":
+    part_1()
+    
